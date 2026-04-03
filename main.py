@@ -5,7 +5,7 @@ import sounddevice as sd
 from scipy.io.wavfile import read
 
 # Load audio file (use any .wav file)
-fs, data = read("test1.wav")
+fs, data = read("tum se hi.wav")
 
 # If stereo, convert to mono
 if len(data.shape) > 1:
