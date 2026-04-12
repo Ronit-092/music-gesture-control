@@ -224,11 +224,15 @@ const mx = x => (1 - x) * CW;
 const my = y =>      y  * CH;
 
 // ── Finger detection ───────────────────────────────────────────────
-function fUp(lm, label) {
-  // Thumb direction differs per hand in raw (unmirrored) coords
-  const thumbUp = label === 'Right'
-    ? lm[4].x < lm[3].x
-    : lm[4].x > lm[3].x;
+// label here is already the VISUAL label (after swap), so:
+//   visual 'Right' hand  → in raw MP coords this was 'Left'
+//   → thumb extends to the RIGHT in raw coords → tip.x > base.x
+//   visual 'Left'  hand  → in raw MP coords this was 'Right'
+//   → thumb extends to the LEFT  in raw coords → tip.x < base.x
+function fUp(lm, visualLabel) {
+  const thumbUp = visualLabel === 'Right'
+    ? lm[4].x > lm[3].x   // raw Left hand, thumb goes right
+    : lm[4].x < lm[3].x;  // raw Right hand, thumb goes left
   return {
     thumb:  thumbUp,
     index:  lm[8].y  < lm[6].y,
@@ -314,7 +318,10 @@ function onHands(res) {
 
   if (res.multiHandLandmarks && res.multiHandedness) {
     res.multiHandLandmarks.forEach((lm, i) => {
-      const labelStr = res.multiHandedness[i].label; // 'Left' | 'Right'
+      // MediaPipe labels from camera POV. Since the video is CSS-mirrored,
+      // MP 'Right' appears on the LEFT of the screen → swap to get visual label.
+      const mpLabel  = res.multiHandedness[i].label;
+      const labelStr = mpLabel === 'Right' ? 'Left' : 'Right'; // visual label
       const fs = fUp(lm, labelStr);
 
       // Draw skeleton using mirrored coords
