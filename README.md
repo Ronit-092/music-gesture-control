@@ -2,7 +2,7 @@
 
 A gesture-controlled music player that runs entirely in your browser. Control volume, pitch, speed, and track navigation using your hands — no downloads, no installs.
 
-![WAVEMIND screenshot](https://via.placeholder.com/800x450/050810/00ffe7?text=WAVEMIND)
+
 
 ## Features
 
