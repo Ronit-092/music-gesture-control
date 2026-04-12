@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="4" fill="#050810"/>
+  <text x="16" y="23" font-family="monospace" font-size="20" font-weight="bold"
+        fill="#00ffe7" text-anchor="middle" filter="url(#g)">W</text>
+  <defs>
+    <filter id="g"><feGaussianBlur stdDeviation="1.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+</svg>

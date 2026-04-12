@@ -1,4 +1,19 @@
-@"
-venv/
-.venv/
-"@ | Out-File -FilePath .gitignore -Encoding utf8
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Local dev
+node_modules/
+.env
+.env.local
+
+# Logs
+*.log

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>WAVEMIND — Gesture Music</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div id="app">
+  <div id="topbar">
+    <div id="logo">WAVE<span>MIND</span></div>
+    <div id="tinfo">
+      <div id="ttitle">Click a track to begin</div>
+      <div id="tartist">gesture controlled music</div>
+    </div>
+    <div id="mbadge" class="ctrl">CONTROL MODE</div>
+  </div>
+
+  <div id="ca">
+    <!-- Only the video is CSS-flipped for mirror selfie view -->
+    <video id="webcam" autoplay playsinline muted></video>
+    <!-- Canvas is NOT flipped — JS manually mirrors X when drawing -->
+    <canvas id="ov"></canvas>
+    <canvas id="wvc"></canvas>
+    <div id="pb"><div id="pf"></div></div>
+    <canvas id="lkc" width="110" height="110"></canvas>
+    <div id="swipe"></div>
+    <div id="pauseicon">⏸</div>
+    <div id="startscreen">
+      <h2>WAVEMIND</h2>
+      <p>
+        Gesture-controlled music streaming<br>
+        Search any song · control with your hands<br><br>
+        Powered by Internet Archive<br>
+        Millions of free, legal tracks
+      </p>
+      <button id="startbtn" onclick="startApp()">ENABLE CAMERA</button>
+    </div>
+  </div>
+
+  <div id="rp">
+    <div id="sb">
+      <h3>// SEARCH TRACKS</h3>
+      <div id="sr">
+        <input id="sq" type="text" placeholder="artist, song, genre…" autocomplete="off"/>
+        <button id="sbtn" onclick="doSearch()">SEARCH</button>
+      </div>
+      <div id="ss">Try: jazz · beethoven · lofi · blues · bollywood</div>
+    </div>
+    <div id="tl">
+      <div id="empty">
+        Search above to load tracks<br><br>
+        Source: Internet Archive<br>
+        Free &amp; legal music library
+      </div>
+    </div>
+  </div>
+
+  <div id="bot">
+    <div class="mw">
+      <div class="ml">VOLUME</div>
+      <div id="vv" class="mv">60%</div>
+      <div class="mbg"><div id="vf" class="mf" style="width:60%"></div></div>
+      <div class="ml" style="margin-top:2px">R THUMB · INDEX SPAN</div>
+    </div>
+    <div class="mw">
+      <div class="ml">SPEED</div>
+      <div id="sv" class="mv">1.00×</div>
+      <div class="mbg"><div id="sf" class="mf" style="width:38%"></div></div>
+      <div class="ml" style="margin-top:2px">DIST BETWEEN LINES</div>
+    </div>
+    <div class="mw">
+      <div class="ml">PITCH</div>
+      <div id="pv" class="mv">0 st</div>
+      <div class="mbg"><div id="pf2" class="mf" style="width:50%"></div></div>
+      <div class="ml" style="margin-top:2px">L THUMB · INDEX SPAN</div>
+    </div>
+    <div id="guide">
+      <b>R</b> index only → Pause<br>
+      <b>R</b> swipe → Next<br>
+      <b>L</b> swipe → Prev<br>
+      Palm hold → Lock
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1620248257/drawing_utils.js" crossorigin="anonymous"></script>
+<script src="app.js"></script>
+</body>
+</html>
