@@ -1,8 +1,8 @@
 # WAVEMIND 🎵
 
-A gesture-controlled music player that runs entirely in your browser. Control volume, pitch, speed, and track navigation using your hands — no downloads, no installs.
+A gesture-controlled music player that runs entirely in your browser. Control volume, pitch, and speed using your hands — no downloads, no installs.
 
-
+🌐 **Live:** [wave-mind.netlify.app](https://wave-mind.netlify.app)
 
 ## Features
 
@@ -12,45 +12,44 @@ A gesture-controlled music player that runs entirely in your browser. Control vo
 - 🔒 **State locking** — freeze your settings and let the music play
 - 📷 **Single camera permission** — asked once, used throughout
 
-## Quick Start
+## Gesture Controls
 
-No build step needed. Just open `index.html` in a modern browser:
+| Gesture | Action |
+|---|---|
+| **Right hand** — thumb+index span | Volume (wide open = loud) |
+| **Left hand** — thumb+index span | Pitch (wide open = higher) |
+| **Both hands** — distance between span midpoints | Speed |
+| **Right index finger only** | Pause / Play toggle |
+| **Open palm (hold ~2s)** | Lock / Unlock current settings |
+
+## How to Use
+
+1. Open [wave-mind.netlify.app](https://wave-mind.netlify.app) and click **ENABLE CAMERA**
+2. Allow camera access when prompted (asked **once**)
+3. Search for any song, artist, or genre in the right panel
+4. **Click a track** to start playing
+5. Use hand gestures to control playback in real time
+
+## Running Locally
+
+No build step needed:
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/wavemind.git
 cd wavemind
+
 # Option 1: open directly
 open index.html
 
-# Option 2: serve locally (recommended — avoids some browser restrictions)
+# Option 2: serve locally (recommended)
 npx serve .
 # or
 python3 -m http.server 8080
 ```
 
-Then visit `http://localhost:8080` in Chrome or Edge.
+Then visit `http://localhost:8080`.
 
-> **Note:** Use Chrome or Edge for best MediaPipe performance. Firefox works but may be slower.
-
-## Gesture Controls
-
-| Gesture | Action |
-|---|---|
-| **Right hand** — thumb+index span | Volume (wide = loud) |
-| **Left hand** — thumb+index span | Pitch (wide = higher) |
-| **Both hands** — distance between span midpoints | Speed |
-| **Right index finger only** | Pause / Play toggle |
-| **Right hand swipe →** | Next track |
-| **Left hand swipe ←** | Previous track |
-| **Open palm (hold ~2s)** | Lock / Unlock current settings |
-
-## How to Use
-
-1. Open the app and click **ENABLE CAMERA**
-2. Allow camera access (asked **once**)
-3. Search for any song, artist, or genre in the right panel
-4. **Click a track** to start playing
-5. Use hand gestures to control playback
+> **Note:** Use Chrome or Edge for best MediaPipe performance. Firefox works but may be slower. Safari is not supported.
 
 ## Music Source
 
@@ -70,7 +69,7 @@ Good search terms: `jazz`, `beethoven`, `blues`, `bollywood`, `coltrane`, `mozar
 wavemind/
 ├── index.html      # App shell and layout
 ├── style.css       # All styles
-├── app.js          # All logic: gestures, audio, search
+├── app.js          # All logic: gestures, audio engine, search
 ├── favicon.svg     # App icon
 ├── .gitignore
 └── README.md
@@ -83,22 +82,27 @@ wavemind/
 | Chrome 90+ | ✅ Full |
 | Edge 90+ | ✅ Full |
 | Firefox 90+ | ⚠️ Works, slower MediaPipe |
-| Safari | ❌ MediaPipe not supported |
+| Safari | ❌ Not supported |
 
-## Running Locally vs GitHub Pages
+## Deploying Updates
 
-The app works as a static site. To deploy on GitHub Pages:
+The site is hosted on Netlify. To deploy changes:
 
-1. Push to a GitHub repo
-2. Go to **Settings → Pages**
-3. Set source to `main` branch, root folder
-4. Visit `https://YOUR_USERNAME.github.io/wavemind`
+**Via drag-and-drop:** Go to [netlify.com](https://netlify.com) → your site → Deploys → drag the updated folder.
+
+**Via GitHub (auto-deploy):**
+```bash
+git add .
+git commit -m "your changes"
+git push
+```
+Netlify will automatically redeploy on every push.
 
 ## Privacy
 
-- Camera feed is processed **locally in your browser** — no video is sent anywhere
+- Camera feed is processed **entirely in your browser** — no video is ever sent anywhere
 - Music is streamed directly from Internet Archive's CDN
-- No analytics, no tracking, no accounts
+- No analytics, no tracking, no accounts required
 
 ## License
 

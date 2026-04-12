@@ -121,18 +121,6 @@ body::after {
 }
 #lkc.vis { opacity: 1; }
 
-#swipe {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 2.4rem;
-  color: var(--c);
-  opacity: 0;
-  pointer-events: none;
-  text-shadow: 0 0 18px var(--c);
-  font-family: 'Share Tech Mono', monospace;
-  transition: opacity .2s;
-}
 #pauseicon {
   position: absolute;
   top: 16px; left: 50%;

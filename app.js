@@ -124,21 +124,6 @@ async function loadTrack(t) {
   }
 }
 
-audioEl.addEventListener('ended',  () => { if (!ST.paused) nextTrack(); });
-audioEl.addEventListener('error',  () => setSt('⚠ Audio error — try another track'));
-
-function nextTrack() {
-  if (!ST.tracks.length) return;
-  ST.idx = (ST.idx + 1) % ST.tracks.length;
-  loadTrack(ST.tracks[ST.idx]);
-  renderList();
-}
-function prevTrack() {
-  if (!ST.tracks.length) return;
-  ST.idx = (ST.idx - 1 + ST.tracks.length) % ST.tracks.length;
-  loadTrack(ST.tracks[ST.idx]);
-  renderList();
-}
 // playAt is triggered by clicking a track row — the ONLY way audio starts
 function playAt(i) {
   ST.idx = i;
@@ -249,28 +234,6 @@ const d2n    = (a, b) => Math.hypot(b.x - a.x, b.y - a.y);
 const clamp  = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 const mapV   = (v, a, b, c, d) => clamp((v - a) / (b - a) * (d - c) + c, c, d);
 
-// ── Swipe tracker ──────────────────────────────────────────────────
-// Uses mirrored X: (1 - lm[0].x). Moving hand right on screen → dx > 0.
-class Swipe {
-  constructor(minD = 0.12, maxT = 0.5, cd = 1.1) {
-    this.minD = minD; this.maxT = maxT; this.cd = cd;
-    this.sx = null; this.st = 0; this.last = 0;
-  }
-  feed(mirX, on) {
-    const t = Date.now() / 1000;
-    if (!on || t - this.last < this.cd) { this.sx = null; return 0; }
-    if (this.sx === null) { this.sx = mirX; this.st = t; return 0; }
-    const dx = mirX - this.sx, dt = t - this.st;
-    if (dt > this.maxT) { this.sx = mirX; this.st = t; return 0; }
-    if (Math.abs(dx) >= this.minD) {
-      const dir = dx > 0 ? 1 : -1;
-      this.sx = null; this.last = t; return dir;
-    }
-    return 0;
-  }
-}
-
-const RS = new Swipe(), LS = new Swipe();
 let openAt = null, lockAt = 0, pauseAt = 0;
 const LOCK_T = 1.8;
 
@@ -361,7 +324,6 @@ function onHands(res) {
         spanN:   d2n(lm[4], lm[8]), // normalised span
         tx, ty, ix, iy,
         midX, midY,
-        mirWX: 1 - lm[0].x,         // mirrored wrist X for swipe
       };
     });
   }
@@ -382,18 +344,6 @@ function onHands(res) {
     updateBadge();
   }
 
-  // ── SWIPE ──────────────────────────────────────────────────────
-  if (R) {
-    const r = RS.feed(R.mirWX, !R.idxOnly && !R.allUp);
-    if (r ===  1) { nextTrack(); flashSwipe(1);  }
-    if (r === -1) { prevTrack(); flashSwipe(-1); }
-  } else RS.feed(0, false);
-
-  if (L) {
-    const l = LS.feed(L.mirWX, !L.idxOnly && !L.allUp);
-    if (l === -1) { prevTrack(); flashSwipe(-1); }
-    if (l ===  1) { nextTrack(); flashSwipe(1);  }
-  } else LS.feed(0, false);
 
   // ── LOCK: open palm hold ───────────────────────────────────────
   const anyOpen = (R && R.allUp) || (L && L.allUp);
@@ -459,13 +409,6 @@ function toast(msg, col = '#00ffe7') {
   el.classList.add('on');
   clearTimeout(toastTmr);
   toastTmr = setTimeout(() => el.classList.remove('on'), 1800);
-}
-function flashSwipe(d) {
-  const el = document.getElementById('swipe');
-  el.textContent  = d > 0 ? '→' : '←';
-  el.style.left   = d > 0 ? '28%' : '65%';
-  el.style.opacity = '1';
-  setTimeout(() => el.style.opacity = '0', 600);
 }
 function updateBadge() {
   const b = document.getElementById('mbadge');
